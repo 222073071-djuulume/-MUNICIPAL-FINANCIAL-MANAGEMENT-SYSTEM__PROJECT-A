@@ -10,14 +10,8 @@
 /* --- 1. EMPLOYEE REPORT --- */
 void generateEmployeeReport(void)
 {
-    printHeader("EMPLOYEE REPORT");
-
-    /* Overview placeholder aligned with employees.h module specs */
-    printf("Total Employees : 0\n");
-    printf("Average Salary : N$ 0.00\n");
-    printf("Highest Salary : N$ 0.00\n");
-    printf("Lowest Salary : N$ 0.00\n");
-    printLine('-', 50);
+    /* Delegates directly to displayEmployeeReport() in employees.c */
+    displayEmployeeReport();
 }
 
 /* --- 2. BUDGET REPORT --- */
@@ -62,7 +56,7 @@ void generateBudgetReport(void)
 
     printLine('-', 80);
     printf("Total Allocated Budget : N$ %.2f\n", totalAllocated);
-    printf("Total Expenditure : N$ %.2f\n", totalExpenditure);
+    printf("Total Expenditure      : N$ %.2f\n", totalExpenditure);
     printf("Total Remaining Budget : N$ %.2f\n", totalAllocated - totalExpenditure);
     printf("Departments Over Budget: %d\n", overBudgetCount);
     printLine('-', 80);
@@ -72,7 +66,6 @@ void generateBudgetReport(void)
 void generateSupplierReport(void)
 {
     printHeader("SUPPLIER REPORT");
-    /* Calls supplier display from suppliers.h */
     displaySuppliers();
 }
 
@@ -80,7 +73,7 @@ void generateSupplierReport(void)
 void generateAssetReport(void)
 {
     printHeader("ASSET REPORT");
-    printf("No assets recorded yet");
+    printf("Use the Asset Management menu (Option 4) to generate full asset valuation summaries.\n");
 }
 
 /* --- 5. REPORTS MENU --- */
@@ -102,29 +95,29 @@ void reportsMenu(void)
 
         switch (choice)
         {
-        case 1:
-            generateEmployeeReport();
-            break;
-        case 2:
-            generateBudgetReport();
-            break;
-        case 3:
-            generateSupplierReport();
-            break;
-        case 4:
-            generateAssetReport();
-            break;
-        case 5:
-            generateEmployeeReport();
-            generateBudgetReport();
-            generateSupplierReport();
-            generateAssetReport();
-            break;
-        case 6:
-            printf("Returning to main menu...\n");
-            break;
-        default:
-            printf("Invalid choice.\n");
+            case 1:
+                generateEmployeeReport();
+                break;
+            case 2:
+                generateBudgetReport();
+                break;
+            case 3:
+                generateSupplierReport();
+                break;
+            case 4:
+                generateAssetReport();
+                break;
+            case 5:
+                generateEmployeeReport();
+                generateBudgetReport();
+                generateSupplierReport();
+                generateAssetReport();
+                break;
+            case 6:
+                printf("Returning to main menu...\n");
+                break;
+            default:
+                printf("Invalid choice.\n");
         }
     } while (choice != 6);
 }
