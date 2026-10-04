@@ -1,59 +1,130 @@
-/*
- * reports.c - Reports module.
- * TODO (Student 5): once the other modules expose "get" functions for
- * their data (e.g. getEmployeeCount(), getEmployeeGross(i)), use them
- * here to calculate totals, averages, highest and lowest (Week 5).
- */
 #include <stdio.h>
+#include <string.h>
 #include "reports.h"
 #include "utils.h"
+#include "employees.h"
+#include "budget.h"
+#include "suppliers.h"
+#include "assets.h"
 
-void employeeReport(void)
+/* --- 1. EMPLOYEE REPORT --- */
+void generateEmployeeReport(void)
 {
-    /* TODO */
-    printf("employeeReport() not implemented yet.\n");
+    printHeader("EMPLOYEE REPORT");
+
+    /* Overview placeholder aligned with employees.h module specs */
+    printf("Total Employees : 0\n");
+    printf("Average Salary : N$ 0.00\n");
+    printf("Highest Salary : N$ 0.00\n");
+    printf("Lowest Salary : N$ 0.00\n");
+    printLine('-', 50);
 }
 
-void budgetReport(void)
+/* --- 2. BUDGET REPORT --- */
+void generateBudgetReport(void)
 {
-    /* TODO */
-    printf("budgetReport() not implemented yet.\n");
+    printHeader("BUDGET REPORT");
+
+    if (budgetCount == 0)
+    {
+        printf("No departmental budgets recorded.\n");
+        return;
+    }
+
+    double totalAllocated = 0.0;
+    double totalExpenditure = 0.0;
+    int overBudgetCount = 0;
+
+    printf("\n%-20s %-15s %-15s %-15s %-15s\n",
+           "Department", "Allocated (N$)", "Spent (N$)", "Remaining (N$)", "Status");
+    printLine('-', 80);
+
+    for (int i = 0; i < budgetCount; i++)
+    {
+        double remaining = calculateRemaining(budgets[i].allocated, budgets[i].expenditure);
+        int within = isWithinBudget(budgets[i].allocated, budgets[i].expenditure);
+
+        totalAllocated += budgets[i].allocated;
+        totalExpenditure += budgets[i].expenditure;
+
+        if (!within)
+        {
+            overBudgetCount++;
+        }
+
+        printf("%-20s %-15.2f %-15.2f %-15.2f %-15s\n",
+               budgets[i].department,
+               budgets[i].allocated,
+               budgets[i].expenditure,
+               remaining,
+               within ? "WITHIN BUDGET" : "OVER BUDGET");
+    }
+
+    printLine('-', 80);
+    printf("Total Allocated Budget : N$ %.2f\n", totalAllocated);
+    printf("Total Expenditure : N$ %.2f\n", totalExpenditure);
+    printf("Total Remaining Budget : N$ %.2f\n", totalAllocated - totalExpenditure);
+    printf("Departments Over Budget: %d\n", overBudgetCount);
+    printLine('-', 80);
 }
 
-void supplierReport(void)
+/* --- 3. SUPPLIER REPORT --- */
+void generateSupplierReport(void)
 {
-    /* TODO */
-    printf("supplierReport() not implemented yet.\n");
+    printHeader("SUPPLIER REPORT");
+    /* Calls supplier display from suppliers.h */
+    displaySuppliers();
 }
 
-void assetReport(void)
+/* --- 4. ASSET REPORT --- */
+void generateAssetReport(void)
 {
-    /* TODO */
-    printf("assetReport() not implemented yet.\n");
+    printHeader("ASSET REPORT");
+    printf("No assets recorded yet");
 }
 
+/* --- 5. REPORTS MENU --- */
 void reportsMenu(void)
 {
     int choice;
 
     do
     {
-        printHeader("REPORTS");
-        printf("1. Employee report\n");
-        printf("2. Budget report\n");
-        printf("3. Supplier report\n");
-        printf("4. Asset report\n");
-        printf("5. Back to main menu\n");
-        choice = readInt("Enter your choice: ", 1, 5);
+        printHeader("REPORTS MODULE");
+        printf("1. Employee Summary Report\n");
+        printf("2. Departmental Budget Report\n");
+        printf("3. Supplier Summary Report\n");
+        printf("4. Asset Summary Report\n");
+        printf("5. Generate All Reports\n");
+        printf("6. Back to Main Menu\n");
+
+        choice = readInt("Enter your choice: ", 1, 6);
 
         switch (choice)
         {
-            case 1: employeeReport(); break;
-            case 2: budgetReport();   break;
-            case 3: supplierReport(); break;
-            case 4: assetReport();    break;
-            case 5: break;
-            default: printf("Invalid choice.\n");
+        case 1:
+            generateEmployeeReport();
+            break;
+        case 2:
+            generateBudgetReport();
+            break;
+        case 3:
+            generateSupplierReport();
+            break;
+        case 4:
+            generateAssetReport();
+            break;
+        case 5:
+            generateEmployeeReport();
+            generateBudgetReport();
+            generateSupplierReport();
+            generateAssetReport();
+            break;
+        case 6:
+            printf("Returning to main menu...\n");
+            break;
+        default:
+            printf("Invalid choice.\n");
         }
-    } while (choice != 5);
+    } while (choice != 6);
 }

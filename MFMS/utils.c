@@ -1,16 +1,9 @@
-/*
- * utils.c - Shared helper functions.
- * These are implemented so the demo runs; every other module still has
- * its own TODOs to fill in (add/display/search).
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "utils.h"
 
-/* Reads one line of text into buffer using fgets(), removes the newline.
- * Returns 1 if the whole line fit in the buffer, 0 if it was too long. */
 int readLine(const char prompt[], char buffer[], int size)
 {
     size_t length;
@@ -40,7 +33,6 @@ int readLine(const char prompt[], char buffer[], int size)
     return complete;
 }
 
-/* Keeps asking until the user types something that isn't empty. */
 void readNonEmpty(const char prompt[], char buffer[], int size)
 {
     while (1)
@@ -60,8 +52,6 @@ void readNonEmpty(const char prompt[], char buffer[], int size)
     }
 }
 
-/* Reads a whole number between min and max (inclusive), re-prompting on
- * anything invalid (Week 3-4 common errors). */
 int readInt(const char prompt[], int min, int max)
 {
     char buffer[INPUT_SIZE];
@@ -92,7 +82,6 @@ int readInt(const char prompt[], int min, int max)
     }
 }
 
-/* Reads a decimal number between min and max (inclusive). */
 double readDouble(const char prompt[], double min, double max)
 {
     char buffer[INPUT_SIZE];
@@ -123,7 +112,6 @@ double readDouble(const char prompt[], double min, double max)
     }
 }
 
-/* Case-insensitive string comparison, built on strcmp() (Week 7). */
 int sameText(const char a[], const char b[])
 {
     char lowerA[256];
@@ -136,13 +124,14 @@ int sameText(const char a[], const char b[])
     }
     strcpy(lowerA, a);
     strcpy(lowerB, b);
-    for (i = 0; lowerA[i] != '\0'; i++) lowerA[i] = (char)tolower((unsigned char)lowerA[i]);
-    for (i = 0; lowerB[i] != '\0'; i++) lowerB[i] = (char)tolower((unsigned char)lowerB[i]);
+    for (i = 0; lowerA[i] != '\0'; i++)
+        lowerA[i] = (char)tolower((unsigned char)lowerA[i]);
+    for (i = 0; lowerB[i] != '\0'; i++)
+        lowerB[i] = (char)tolower((unsigned char)lowerB[i]);
 
     return strcmp(lowerA, lowerB) == 0;
 }
 
-/* VAT at 15% (Week 8). */
 double calculateVAT(double amount)
 {
     return amount * VAT_RATE;

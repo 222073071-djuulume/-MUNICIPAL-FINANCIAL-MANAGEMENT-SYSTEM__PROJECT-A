@@ -1,11 +1,3 @@
-/*
- * main.c - Municipal Financial Management System (MFMS) - Project A
- * SKELETON: main() and the menus already work. Fill in the TODOs in
- * each module's .c file.
- *
- * Compile: gcc -std=c99 -Wall -Wextra -o mfms main.c utils.c employees.c \
- *              budget.c suppliers.c assets.c reports.c
- */
 #include <stdio.h>
 #include "utils.h"
 #include "employees.h"
@@ -49,13 +41,26 @@ int main(void)
 
         switch (choice)
         {
-            case 1: employeeMenu(); break;
-            case 2: budgetMenu();   break;
-            case 3: supplierMenu(); break;
-            case 4: assetMenu();    break;
-            case 5: reportsMenu();  break;
-            case 6: printf("\nGoodbye.\n"); break;
-            default: printf("Invalid choice.\n");
+        case 1:
+            employeeMenu();
+            break;
+        case 2:
+            budgetMenu();
+            break;
+        case 3:
+            supplierMenu();
+            break;
+        case 4:
+            assetMenu();
+            break;
+        case 5:
+            reportsMenu();
+            break;
+        case 6:
+            printf("\nGoodbye.\n");
+            break;
+        default:
+            printf("Invalid choice.\n");
         }
     } while (choice != 6);
 
